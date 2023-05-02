@@ -1,14 +1,20 @@
-public class IntegerDivision {
+package DivisionApplication;
+
+import DivisionApplication.InputProcessor;
+
+import java.util.Scanner;
+
+public class Division {
     private StringBuilder result = new StringBuilder();
     private StringBuilder quotient = new StringBuilder();
     private StringBuilder remainder = new StringBuilder();
 
     public void startDivision(){
         InputProcessor inputProcessor = new InputProcessor();
-        IntegerDivision integerDivision = new IntegerDivision();
+        Division integerDivision = new Division();
 
-        integerDivision.divide(inputProcessor.input().t);
-
+        String result = integerDivision.divide(inputProcessor.inputDividend(), inputProcessor.inputDivisor());
+        System.out.println(result);
     }
 
     private String divide(int dividend, int divisor) {
