@@ -1,19 +1,14 @@
 package DivisionApplication;
 
-import DivisionApplication.InputProcessor;
-
-import java.util.Scanner;
-
 public class Division {
-    private StringBuilder result = new StringBuilder();
-    private StringBuilder quotient = new StringBuilder();
-    private StringBuilder remainder = new StringBuilder();
+    protected StringBuilder result = new StringBuilder();
+    protected StringBuilder quotient = new StringBuilder();
+    protected StringBuilder remainder = new StringBuilder();
 
-    public void startDivision(){
-        InputProcessor inputProcessor = new InputProcessor();
+    public void startDivision(int dividend, int division){
         Division integerDivision = new Division();
 
-        String result = integerDivision.divide(inputProcessor.inputDividend(), inputProcessor.inputDivisor());
+        String result = integerDivision.divide(dividend, division);
         System.out.println(result);
     }
 
@@ -22,12 +17,11 @@ public class Division {
             throw new IllegalArgumentException("Division by zero is not allowed.");
         }
 
-        dividend = Math.abs(dividend);
-        divisor = Math.abs(divisor);
-
-        if (dividend < divisor) {
+        if (Math.abs(dividend) < divisor) {
             return dividend + " / " + divisor + " = 0";
         }
+
+        OutputResult outputResult = new OutputResult();
 
         String[] digits = String.valueOf(dividend).split("");
         int remainderNumber;
@@ -67,43 +61,16 @@ public class Division {
             }
         }
 
-        modifyResultToView(dividend, divisor);
+        outputResult.modifyResultToView(dividend, divisor, result, quotient);
         return result.toString();
     }
 
     private String makeDivider(int remainderNumber, int tab) {
-        return assemblyString(tab, ' ') + assemblyString(calculateDigit(remainderNumber), '-');
+        OutputResult outputResult = new OutputResult();
+        return outputResult.assemblyString(tab, ' ') + outputResult.assemblyString(calculateDigit(remainderNumber), '-');
     }
 
-    private void modifyResultToView(int dividend, int divisor) {
-        int[] index = new int[3];
-        for (int i = 0, j = 0; i < result.length(); i++) {
-            if (result.charAt(i) == '\n') {
-                index[j] = i;
-                j++;
-            }
-
-            if (j == 3) {
-                break;
-            }
-        }
-
-        int tab = calculateDigit(dividend) + 1 - index[0];
-        result.insert(index[2], assemblyString(tab, ' ') + "│" + quotient.toString());
-        result.insert(index[1], assemblyString(tab, ' ') + "│" + assemblyString(quotient.length(), '-'));
-        result.insert(index[0], "│" + divisor);
-        result.replace(1, index[0], dividend + "");
-    }
-
-    private int calculateDigit(int i) {
+    protected int calculateDigit(int i) {
         return (int) Math.log10(i) + 1;
-    }
-
-    private String assemblyString(int numberOfSymbols, char symbol) {
-        StringBuilder string = new StringBuilder();
-        for (int i = 0; i < numberOfSymbols; i++) {
-            string.append(symbol);
-        }
-        return string.toString();
     }
 }
