@@ -4,11 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InputProcessor {
-    public void startApplication(){
-        Division division = new Division();
-
-        division.startDivision(inputDividend(), inputDivisor());
-    }
     public int inputDividend() {
         Scanner scanner = new Scanner(System.in);
 
